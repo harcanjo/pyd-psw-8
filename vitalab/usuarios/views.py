@@ -58,3 +58,6 @@ def logar(request):
             messages.add_message(request, constants.ERROR, 'Usuario ou senha inválidos')
             return redirect('/usuarios/login')
 
+def teste(request):
+    print(request.user) # verifica usuario logado
+    return HttpResponse("Logado!")
