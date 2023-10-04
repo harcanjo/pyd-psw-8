@@ -172,7 +172,115 @@ TEMPLATES = [
 ```
 
 - Inside de app (cursos) create a 'templates' folder:
+
   - create the templete file: acessar.html
+
+- Make the view render the template:
+
+```python
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def acessar(request):
+    return render(request, 'acessar.html')
+```
+
+- To add more urls:
+
+**Add url name in urls.py**
+
+```python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('acessar/', views.acessar),
+    path('criar_curso/', views.criar_curso),
+    path('outro_nome/', views.outro_nome),
+]
+```
+
+**Add url function views.py**
+
+```python
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def acessar(request):
+    return render(request, 'acessar.html')
+
+def criar_curso(request):
+    return render(request, 'criar_curso.html')
+
+def outro_nome(request):
+    return render(request, 'outro_nome.html')
+```
+
+**Add respective templates (\*.html) to templates folder**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Criar Curso</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Crie seu curso</h1>
+      <hr />
+
+      <form action="">
+        <div class="mb-3">
+          <label for="nome-curso" class="form-label">Nome do curso:</label>
+          <input type="text" class="form-control" id="nome-curso" />
+        </div>
+        <div class="mb-3">
+          <label for="caga-hora" class="form-label">Carga horária</label>
+          <input type="text" class="form-control" id="caga-hora" />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
+```
+
+- To use the form action:
+
+```html
+<form action="/cursos/criar_curso/" method="POST"></form>
+```
+
+- This method post will be used to send form data, in views the get method is used, every time the route is accessed:
+
+```python
+def criar_curso(request):
+    if request.method == "GET":
+        return render(request, 'criar_curso.html')
+    elif request.method == "POST":
+        return HttpResponse("Teste")
+```
+
+- Isso cai na validação de formulário
+
+```html
+<form action="/cursos/criar_curso/" method="POST"></form>
+{% csrf_token %}
+```
 
 ## To study more
 
