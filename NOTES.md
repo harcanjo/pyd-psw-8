@@ -240,12 +240,22 @@ def outro_nome(request):
 
       <form action="">
         <div class="mb-3">
-          <label for="nome-curso" class="form-label">Nome do curso:</label>
-          <input type="text" class="form-control" id="nome-curso" />
+          <label for="nome_curso" class="form-label">Nome do curso:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nome_curso"
+            name="nome_curso"
+          />
         </div>
         <div class="mb-3">
-          <label for="caga-hora" class="form-label">Carga horária</label>
-          <input type="text" class="form-control" id="caga-hora" />
+          <label for="carga_hora" class="form-label">Carga horária</label>
+          <input
+            type="text"
+            class="form-control"
+            id="carga_hora"
+            name="carga_hora"
+          />
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
@@ -280,6 +290,78 @@ def criar_curso(request):
 ```html
 <form action="/cursos/criar_curso/" method="POST"></form>
 {% csrf_token %}
+```
+
+- Para ver o que é enviado na requisição, basta adicionar um print na função dentro da views.py
+
+```python
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def acessar(request):
+    return render(request, 'acessar.html')
+
+def criar_curso(request):
+    if request.method == "GET":
+        return render(request, 'criar_curso.html')
+    elif request.method == "POST":
+        print(request.POST.get('nome_curso'))
+        # print(request.META)
+        # print(request))
+        return HttpResponse("Teste")
+```
+
+- To get this data:
+
+```python
+def criar_curso(request):
+    if request.method == "GET":
+        return render(request, 'criar_curso.html')
+    elif request.method == "POST":
+        nome_curso = request.POST.get('nome_curso')
+        carga_hora = request.POST.get('carga_hora')
+        return HttpResponse(f'{nome_curso} - {carga_hora}')
+```
+
+- If we want to process this data in database, first we need to make the migrations of Django pre created models first:
+
+```bash
+$ python manage.py migrate
+```
+
+- To use MVT, in model we use the concept of models, in the models.py file inside app (cursos) folder:
+
+```python
+from django.db import models
+
+class Curso(models.Model):
+    nome_curso = models.CharField(max_length=40)
+    carga_hora = models.IntegerField()
+    data_criacao = models.DateField()
+    ativo = models.BooleanField(default=True)
+```
+
+- To make this model become a table on our database, we need to run the migrations for this model
+
+```bash
+$ python manage.py makemigrations
+$ python manage.py migrate
+```
+
+- To access /admin: _Create Superuser_
+
+```bash
+$ python manage.py createsuperuser
+```
+
+- Username: admin
+- Email: email@email.com
+- Password: admin
+
+- To access our created model through admin, in admin.py add our model
+
+```python
+
 ```
 
 ## To study more

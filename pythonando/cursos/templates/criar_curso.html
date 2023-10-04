@@ -16,12 +16,12 @@
 
     <form action="/cursos/criar_curso/" method="POST">{% csrf_token %}
       <div class="mb-3">
-        <label for="nome-curso" class="form-label">Nome do curso:</label>
-        <input type="text" class="form-control" id="nome-curso">
+        <label for="nome_curso" class="form-label">Nome do curso:</label>
+        <input type="text" class="form-control" id="nome_curso" name="nome_curso">
       </div>
       <div class="mb-3">
-        <label for="caga-hora" class="form-label">Carga horária</label>
-        <input type="text" class="form-control" id="caga-hora">
+        <label for="carga_hora" class="form-label">Carga horária</label>
+        <input type="text" class="form-control" id="carga_hora" name="carga_hora">
       </div>
       <button type="submit" class="btn btn-primary" value="Enviar">Enviar</button>
     </form>
