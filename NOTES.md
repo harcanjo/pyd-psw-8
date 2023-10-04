@@ -110,4 +110,74 @@ urlpatterns = [
 ```
 
 - Add urls.py file inside the app to be included (cursos)
-  -
+  - the urls.py inside the app
+
+```python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('acessar/', views.acessar)
+]
+```
+
+- Add the function to the url in the views.py:
+
+```python
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def acessar(request):
+    return HttpResponse('Olá mundo!')
+```
+
+- Add the new app (cursos) to the settings.py -> INSTALLED_APPS:
+
+```python
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'cursos',
+]
+```
+
+- You need to import 'os' library to the settings.py
+
+```python
+import os
+```
+
+- Add path of templates folder to DIRS in TEMPLATES section in settings.py
+
+```python
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+```
+
+- Inside de app (cursos) create a 'templates' folder:
+  - create the templete file: acessar.html
+
+## To study more
+
+- Django MVT: Base
+- Django Rest Framework: API
+- MVT x MVC
+- MVT - model view template
+- MVC - model view controller

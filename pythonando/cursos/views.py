@@ -5,4 +5,4 @@ from django.http import HttpResponse
 
 
 def acessar(request):
-    return HttpResponse('Olá mundo!')
+    return render(request, 'acessar.html')
