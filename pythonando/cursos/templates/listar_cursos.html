@@ -29,7 +29,7 @@
     <h3>Listar cursos</h3>
 
     {% for i in cursos %}
-      <h4>Nome: {{i.nome_curso}}</h4>
+      <h4>Nome: <a href="/cursos/ver_curso/{{i.id}}">{{i.nome_curso}}</a></h4>
       <h5>Carga horária: {{i.carga_hora}}</h5>
       <hr>
     {% endfor %}

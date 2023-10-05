@@ -42,3 +42,9 @@ def listar_cursos(request):
         cursos = cursos.filter(carga_hora__gte=carga_horaria)
 
     return render(request, 'listar_cursos.html', {'cursos': cursos})
+
+
+def ver_curso(request, id):
+    curso = Curso.objects.get(id=id)
+
+    return render(request, 'ver_curso.html', {'curso': curso})

@@ -693,7 +693,42 @@ if carga_horaria:
 - Only greater than \_\_gt
 - Only smaller than \_\_lt
 
-- 
+- To be able to click in each curso listed in view we need to create another url, this url ver_curso/<int:id> is a dinamic url
+
+```python
+urlpatterns = [
+    path('acessar/', views.acessar, name="acessar"),
+    path('criar_curso/', views.criar_curso, name="criar_curso"),
+    path('listar_cursos/', views.listar_cursos, name="listar_cursos"),
+    path('ver_curso/<int:id>', views.ver_curso, name="ver_curso"),
+]
+```
+
+- To make each curso clickable:
+
+```html
+{% for i in cursos %}
+<h4>Nome: <a href="/curso/ver_curso/{{i.id}}">{{i.nome_curso}}</a></h4>
+<h5>Carga horária: {{i.carga_hora}}</h5>
+<hr />
+{% endfor %}
+```
+
+- In views we create this view with the parameter
+
+```python
+def ver_curso(request, id):
+    curso = Curso.objects.get(id=id)
+    return render(request, 'ver_curso.html', {'curso': curso})
+```
+
+- In ver_curso.html template
+
+```html
+<div class="container">
+  <h5>Nome: {{curso.nome_curso}}</h5>
+</div>
+```
 
 ## To study more
 
