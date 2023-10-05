@@ -12,6 +12,11 @@
 <body>
   <div class="container">
     <h1>Crie seu curso</h1>
+    {% if status == '1' %}
+      <div class="alert alert-success" role="alert">
+        Dados salvos com sucesso!
+      </div>
+    {% endif %}
     <hr>
 
     <form action="/cursos/criar_curso/" method="POST">{% csrf_token %}

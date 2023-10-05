@@ -426,7 +426,94 @@ def criar_curso(request):
 
         return HttpResponse(f'Salvo')
 ```
-- 
+
+- After we save the data, we want to redirect the user back to /criar_curso/ view, and we need to import redirect
+
+```python
+from django.shortcuts import render, redirect
+
+        (...)
+
+        curso.save()
+
+        return redirect('/cursos/criar_curso/')
+```
+
+- When redirecting, we can add parameters to url using '?'
+
+```python
+return redirect('/cursos/criar_curso/?status=1')
+```
+
+- We can use these parameters in our code, to test if we are receiving this:
+
+```python
+(...)
+
+def criar_curso(request):
+    if request.method == "GET":
+        status = request.GET
+        print(status)
+
+        return render(request, 'criar_curso.html')
+
+        (...)
+```
+
+- To send this to our criar_curso.html, we can send this in our render like this:
+
+```python
+def criar_curso(request):
+    if request.method == "GET":
+        status = request.GET.get('status')
+
+        return render(request, 'criar_curso.html', {'status': status})
+```
+
+- On our criar_curso.html we need to add:
+
+```html
+<body>
+  <div class="container">
+    <h1>Crie seu curso</h1>
+    {{status}}
+    <hr />
+    (...)
+  </div>
+</body>
+```
+
+- We can show some message if the status = 1:
+
+```html
+<body>
+  <div class="container">
+    <h1>Crie seu curso</h1>
+    {% if status == '1' %}
+    <h1>Dados salvos com sucesso!</h1>
+    {% endif %}
+    <hr />
+    (...)
+  </div>
+</body>
+```
+
+- We can add bootstrap to improve this visual
+
+```html
+<body>
+  <div class="container">
+    <h1>Crie seu curso</h1>
+    {% if status == '1' %}
+      <div class="alert alert-success" role="alert">
+        Dados salvos com sucesso!
+      </div>
+    {% endif %}
+    <hr />
+  </div>
+</body>
+```
+
 ## To study more
 
 - Django MVT: Base

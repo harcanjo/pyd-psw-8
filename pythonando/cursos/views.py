@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Curso
 from datetime import datetime
@@ -12,7 +12,9 @@ def acessar(request):
 
 def criar_curso(request):
     if request.method == "GET":
-        return render(request, 'criar_curso.html')
+        status = request.GET.get('status')
+
+        return render(request, 'criar_curso.html', {'status': status})
     elif request.method == "POST":
         nome_curso_form = request.POST.get('nome_curso')
         carga_hora_form = request.POST.get('carga_hora')
@@ -25,4 +27,4 @@ def criar_curso(request):
 
         curso.save()
 
-        return HttpResponse(f'Salvo')
+        return redirect('/cursos/criar_curso/?status=1')
