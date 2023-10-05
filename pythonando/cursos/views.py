@@ -31,7 +31,10 @@ def criar_curso(request):
 
 
 def listar_cursos(request):
-    cursos = Curso.objects.all()
-    print(cursos)
+    nome_filtrar = request.GET.get('nome_filtrar')
+    if nome_filtrar:
+        cursos = Curso.objects.filter(nome_curso__contains=nome_filtrar)
+    else:
+        cursos = Curso.objects.all()
 
     return render(request, 'listar_cursos.html', {'cursos': cursos})

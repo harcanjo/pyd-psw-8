@@ -583,6 +583,70 @@ return render(request, 'listar_cursos.html', {'cursos': cursos})
 </body>
 ```
 
+- To create a form filter we added a form to template
+
+```html
+<body>
+  <div class="container">
+    <br />
+
+    <form action="{% url 'listar_cursos' %}" method="GET">
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="nome" name="nome_filtrar" />
+      </div>
+      <button type="submit" class="btn btn-success" value="filtrar">
+        Filtrar
+      </button>
+    </form>
+
+    <br />
+  </div>
+</body>
+```
+
+- To make this form work we need to, add method to form or add name to urls in urls.py:
+
+```python
+urlpatterns = [
+    path('acessar/', views.acessar),
+    path('criar_curso/', views.criar_curso, name="criar_curso"),
+    path('listar_cursos/', views.listar_cursos, name="listar_cursos"),
+]
+```
+
+- Now, in we add django to action in form
+
+```html
+<form action="{% url 'listar_cursos' %}" method="GET">(...)</form>
+```
+
+- Now in views.py, a simple filter
+
+```python
+def listar_cursos(request):
+    nome_filtrar = request.GET.get('nome_filtrar')
+    if nome_filtrar:
+        cursos = Curso.objects.filter(nome_curso=nome_filtrar)
+    else:
+        cursos = Curso.objects.all()
+
+    return render(request, 'listar_cursos.html', {'cursos': cursos})
+```
+
+- But that will only filter exctly the same value, we need more flexible filter, like
+
+```python
+def listar_cursos(request):
+    nome_filtrar = request.GET.get('nome_filtrar')
+    if nome_filtrar:
+        cursos = Curso.objects.filter(nome_curso__contains=nome_filtrar)
+    else:
+        cursos = Curso.objects.all()
+
+    return render(request, 'listar_cursos.html', {'cursos': cursos})
+```
+- 
 ## To study more
 
 - Django MVT: Base
