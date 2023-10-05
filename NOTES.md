@@ -361,9 +361,72 @@ $ python manage.py createsuperuser
 - To access our created model through admin, in admin.py add our model
 
 ```python
+from django.contrib import admin
+from .models import Curso
 
+admin.site.register(Curso)
 ```
 
+- To be able to save form data to db through model, we need to import the model to view:
+
+```python
+from django.shortcuts import render
+from django.http import HttpResponse
+from .models import Curso
+```
+
+- To get the data we need to instantiate the model in the view
+
+```python
+
+  curso = Curso(
+    nome_curso=nome_curso_form,
+    carga_hora=carga_hora_form,
+    data_criacao=...
+  )
+```
+
+- To get date and time, we need to import datetime library
+
+```python
+from datetime import datetime
+
+(...)
+
+ curso = Curso(
+    nome_curso=nome_curso_form,
+    carga_hora=carga_hora_form,
+    data_criacao=datetime.now(),
+  )
+```
+
+- To save this data on db, we need to save()
+
+```python
+curso.save()
+```
+
+- To see our criar_curso complete function:
+
+```python
+def criar_curso(request):
+    if request.method == "GET":
+        return render(request, 'criar_curso.html')
+    elif request.method == "POST":
+        nome_curso_form = request.POST.get('nome_curso')
+        carga_hora_form = request.POST.get('carga_hora')
+
+        curso = Curso(
+            nome_curso=nome_curso_form,
+            carga_hora=carga_hora_form,
+            data_criacao=datetime.now()
+        )
+
+        curso.save()
+
+        return HttpResponse(f'Salvo')
+```
+- 
 ## To study more
 
 - Django MVT: Base
