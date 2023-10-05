@@ -765,7 +765,13 @@ def deletar_curso(request, id):
 ```
 
 - If you dont want to list dont active cursos in listar_cursos.html
+
 ```html
+{% for i in cursos %} {% if i.ativo %}
+<h4>Nome: <a href="/cursos/ver_curso/{{i.id}}">{{i.nome_curso}}</a></h4>
+<h5>Carga horária: {{i.carga_hora}}</h5>
+<hr />
+{% endif %} {% endfor %}
 ```
 
 ## To study more
