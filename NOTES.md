@@ -535,7 +535,53 @@ def listar_cursos(request):
 
 - And we have to create the 'listar_cursos.html' in templates folder.
 
--
+- Now to get all cursos in db to show in list we need to get in views.py
+
+```python
+def listar_cursos(request):
+    cursos = Curso.objects.all()
+    print(cursos)
+
+    return render(request, 'listar_cursos.html')
+```
+
+- But to get the names, we need to edit our models, and add magic method def \_\_str\_\_
+
+```python
+class Curso(models.Model):
+    nome_curso = models.CharField(max_length=40)
+    carga_hora = models.IntegerField()
+    data_criacao = models.DateTimeField()
+    ativo = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.nome_curso
+```
+
+- To send this to our template listar_cursos.html:
+
+```python
+return render(request, 'listar_cursos.html', {'cursos': cursos})
+```
+
+```html
+<body>
+  <h1>Listar cursos</h1>
+  {{cursos}}
+</body>
+```
+
+- To list it better
+
+```html
+<body>
+  <h1>Listar cursos</h1>
+  {% for i in cursos %}
+  <h3>Nome: {{i.nome_curso}}</h3>
+  <h4>Carga horária: {{i.carga_hora}}</h4>
+  {% endfor %}
+</body>
+```
 
 ## To study more
 

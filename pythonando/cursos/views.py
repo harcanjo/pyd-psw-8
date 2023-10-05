@@ -31,4 +31,7 @@ def criar_curso(request):
 
 
 def listar_cursos(request):
-    return render(request, 'listar_cursos.html')
+    cursos = Curso.objects.all()
+    print(cursos)
+
+    return render(request, 'listar_cursos.html', {'cursos': cursos})
