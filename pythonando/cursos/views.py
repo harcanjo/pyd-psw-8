@@ -46,5 +46,10 @@ def listar_cursos(request):
 
 def ver_curso(request, id):
     curso = Curso.objects.get(id=id)
-
     return render(request, 'ver_curso.html', {'curso': curso})
+
+
+def deletar_curso(request, id):
+    curso = Curso.objects.get(id=id)
+    curso.delete()
+    return redirect('/cursos/listar_cursos')

@@ -727,7 +727,45 @@ def ver_curso(request, id):
 ```html
 <div class="container">
   <h5>Nome: {{curso.nome_curso}}</h5>
+  <h5>Carga Horária: {{curso.carga_hora}}</h5>
+  <h5>Data: {{curso.data_criacao}}</h5>
+  <h5>Ativo: {{curso.ativo}}</h5>
 </div>
+```
+
+- To be able to delete this curso, we need a button:
+
+```html
+<a href="{% url 'deletar_curso' curso.id %}" class="btn btn-danger">Deletar</a>
+```
+
+- To delete we need another url
+
+```python
+path('deletar_curso/<int:id>', views.deletar_curso, name="deletar_curso"),
+```
+
+- In views
+
+```python
+def deletar_curso(request, id):
+    curso = Curso.objects.get(id=id)
+    curso.delete()
+    return redirect('/cursos/listar_cursos')
+```
+
+- If you dont want to delete the course, you can simple make active to false
+
+```python
+def deletar_curso(request, id):
+    curso = Curso.objects.get(id=id)
+    curso.ativo = False
+    curso.save()
+    return redirect('/cursos/listar_cursos')
+```
+
+- If you dont want to list dont active cursos in listar_cursos.html
+```html
 ```
 
 ## To study more
