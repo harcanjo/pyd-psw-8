@@ -646,7 +646,55 @@ def listar_cursos(request):
 
     return render(request, 'listar_cursos.html', {'cursos': cursos})
 ```
+
+- To filter by time length and name we need to add field to form and change our function in view
+
+```html
+<div class="mb-3">
+  <label for="carga_hora" class="form-label">Carga Horária</label>
+  <input
+    type="number"
+    class="form-control"
+    id="carga_hora"
+    name="carga_horaria"
+  />
+</div>
+```
+
+```python
+def listar_cursos(request):
+    nome_filtrar = request.GET.get('nome_filtrar')
+    carga_horaria = request.GET.get('carga_horaria')
+
+    cursos = Curso.objects.all()
+
+    if nome_filtrar:
+        cursos = cursos.filter(nome_curso__contains=nome_filtrar)
+    if carga_horaria:
+        cursos = cursos.filter(carga_hora=carga_horaria)
+
+    return render(request, 'listar_cursos.html', {'cursos': cursos})
+```
+
+- To filter by minimum time length we add '\_\_gte' to carga_hora:
+
+```python
+if carga_horaria:
+        cursos = cursos.filter(carga_hora__gte=carga_horaria)
+```
+
+- To filter by maximum time length we add '\_\_tte' to carga_hora:
+
+```python
+if carga_horaria:
+        cursos = cursos.filter(carga_hora__lte=carga_horaria)
+```
+
+- Only greater than \_\_gt
+- Only smaller than \_\_lt
+
 - 
+
 ## To study more
 
 - Django MVT: Base

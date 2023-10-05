@@ -32,9 +32,13 @@ def criar_curso(request):
 
 def listar_cursos(request):
     nome_filtrar = request.GET.get('nome_filtrar')
+    carga_horaria = request.GET.get('carga_horaria')
+
+    cursos = Curso.objects.all()
+
     if nome_filtrar:
-        cursos = Curso.objects.filter(nome_curso__contains=nome_filtrar)
-    else:
-        cursos = Curso.objects.all()
+        cursos = cursos.filter(nome_curso__contains=nome_filtrar)
+    if carga_horaria:
+        cursos = cursos.filter(carga_hora__gte=carga_horaria)
 
     return render(request, 'listar_cursos.html', {'cursos': cursos})
