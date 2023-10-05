@@ -28,3 +28,7 @@ def criar_curso(request):
         curso.save()
 
         return redirect('/cursos/criar_curso/?status=1')
+
+
+def listar_cursos(request):
+    return render(request, 'listar_cursos.html')

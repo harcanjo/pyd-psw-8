@@ -505,14 +505,37 @@ def criar_curso(request):
   <div class="container">
     <h1>Crie seu curso</h1>
     {% if status == '1' %}
-      <div class="alert alert-success" role="alert">
-        Dados salvos com sucesso!
-      </div>
+    <div class="alert alert-success" role="alert">
+      Dados salvos com sucesso!
+    </div>
     {% endif %}
     <hr />
   </div>
 </body>
 ```
+
+- Now we want to add another view: listar_cursos
+
+- In urls:
+
+```python
+urlpatterns = [
+    path('acessar/', views.acessar),
+    path('criar_curso/', views.criar_curso),
+    path('listar_cursos/', views.listar_cursos),
+]
+```
+
+- In views:
+
+```python
+def listar_cursos(request):
+    return render(request, 'listar_cursos.html')
+```
+
+- And we have to create the 'listar_cursos.html' in templates folder.
+
+-
 
 ## To study more
 
