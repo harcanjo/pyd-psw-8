@@ -1,3 +1,4 @@
+from django.http import FileResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.db.models import Value
@@ -28,3 +29,17 @@ def cliente(request, cliente_id):
     cliente = User.objects.get(id=cliente_id)
     exames = SolicitacaoExame.objects.filter(usuario=cliente)
     return render(request, 'cliente.html', {'cliente': cliente, 'exames': exames})
+
+
+@staff_member_required
+def exame_cliente(request, exame_id):
+    exame = SolicitacaoExame.objects.get(id=exame_id)
+    return render(request, 'exame_cliente.html', {'exame': exame})
+
+
+@staff_member_required
+def proxy_pdf(request, exame_id):
+    exame = SolicitacaoExame.objects.get(id=exame_id)
+
+    response = exame.resultado.open()
+    return FileResponse(response)
