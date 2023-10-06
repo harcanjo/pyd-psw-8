@@ -21,7 +21,7 @@
     <div class="col-md-5">
       <h3>Gerar acesso médico</h3>
 
-      <form action="{% url " gerar_acesso_medico" %}" method="POST">{% csrf_token %}
+      <form action="{% url 'gerar_acesso_medico' %}" method="POST">{% csrf_token %}
 
         <label for="">Identificação</label>
         <br>
@@ -61,12 +61,13 @@
           </tr>
 
 
+          {% for acesso in acessos_medicos %}
           <tr class="linha-tabela">
-            <td>01</td>
-            <td>Status 1</td>
-            <td>URL AQUI</td>
+            <td>{{acesso.identificacao}}</td>
+            <td>{{acesso.status}}</td>
+            <td><a href="{{acesso.url}}">{{acesso.url}}</a></td>
           </tr>
-
+          {% endfor %}
 
 
         </table>
