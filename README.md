@@ -14,3 +14,7 @@ Vitalab - Systema de gerenciamento de um laboratorio clínico.
 
 - django
 - pillow
+- weasyprint (*Requires GTK*)
+
+## GTK for Windows
+[GTK for Windows](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases)
