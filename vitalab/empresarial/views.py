@@ -20,3 +20,10 @@ def gerenciar_clientes(request):
         ).filter(full_name__contains=nome_completo)
 
     return render(request, 'gerenciar_clientes.html', {'clientes': clientes, 'nome_completo': nome_completo, 'email': email})
+
+
+@staff_member_required
+def cliente(request, cliente_id):
+    cliente = User.objects.get(id=cliente_id)
+    exames = SolicitacaoExame.objects.filter(usuario=cliente)
+    return render(request, 'cliente.html', {'cliente': cliente, 'exames': exames})
