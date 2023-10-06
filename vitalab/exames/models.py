@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
+from secrets import token_urlsafe
+
 
 class TiposExames(models.Model):
     tipo_choices = (
@@ -16,7 +18,8 @@ class TiposExames(models.Model):
 
     def __str__(self):
         return self.nome
-    
+
+
 class SolicitacaoExame(models.Model):
     choice_status = (
         ('E', 'Em análise'),
@@ -31,7 +34,7 @@ class SolicitacaoExame(models.Model):
 
     def __str__(self):
         return f'{self.usuario} | {self.exame.nome}'
-    
+
     def badge_template(self):
         if self.status == 'E':
             classes_css = 'bg-warning text-dark'
@@ -39,8 +42,9 @@ class SolicitacaoExame(models.Model):
         elif self.status == 'F':
             classes_css = 'bg-success'
             texto = "Finalizado"
-        
+
         return mark_safe(f"<span class='badge bg-primary {classes_css}'>{texto}</span>")
+
 
 class PedidosExames(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.DO_NOTHING)
@@ -50,3 +54,22 @@ class PedidosExames(models.Model):
 
     def __str__(self):
         return f'{self.usuario} | {self.data}'
+
+
+class AcessoMedico(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    identificacao = models.CharField(max_length=50)
+    tempo_de_acesso = models.IntegerField()  # Em horas
+    criado_em = models.DateTimeField()
+    data_exames_iniciais = models.DateField()
+    data_exames_finais = models.DateField()
+    token = models.CharField(max_length=20, null=True, blank=True)
+
+    def __str__(self):
+        return self.token
+
+    def save(self, *args, **kwargs):
+        if not self.token:
+            self.token = token_urlsafe(6)
+
+        super(AcessoMedico, self).save(*args, **kwargs)
